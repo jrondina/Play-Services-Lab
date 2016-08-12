@@ -69,11 +69,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 
-        if ()
 
-        getLocation();
+        if (grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
+            getLocation();
 
+        } else {
+
+            Toast.makeText(MapsActivity.this, "Need Permission for location!", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -108,6 +113,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleAPIClient);
 
+        mMap.setMyLocationEnabled(true);
+
         double lat = location.getLatitude();
         double lon = location.getLongitude();
 
@@ -115,7 +122,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         mMap.addMarker(new MarkerOptions().position(yourLocation).title("You are here"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(yourLocation));
-
-
+        
     }
 }
